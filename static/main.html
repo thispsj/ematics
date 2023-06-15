@@ -153,16 +153,17 @@
             })
                 .then(response => response.json())
                 .then(links => {
-                    newEmailLinkList.innerHTML = '';
-                    links.forEach(link => {
-                        const listItem = document.createElement('li');
-                        const linkElement = document.createElement('a');
-                        linkElement.href = link;
-                        linkElement.textContent = link;
-                        listItem.appendChild(linkElement);
-                        newEmailLinkList.appendChild(listItem);
-                    });
-                    newEmailLinks.style.display = 'block';
+                    //newEmailLinkList.innerHTML = '';
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = `/${links.key[1]}`;
+                    link.textContent = links.value.email;
+                    const viewCount = document.createElement('span');
+                    viewCount.textContent = ` (${links.value.open} views)`;
+                    listItem.appendChild(link);
+                    listItem.appendChild(viewCount);
+                    emailList.appendChild(listItem);
+                    //newEmailLinks.style.display = 'block';
                 })
                 .catch(error => console.error(error));
         });
@@ -173,10 +174,10 @@
                 emails.forEach(email => {
                     const listItem = document.createElement('li');
                     const link = document.createElement('a');
-                    link.href = `/${email.name}`;
-                    link.textContent = email.name;
+                    link.href = `/${email.key[1]}`;
+                    link.textContent = email.value.email;
                     const viewCount = document.createElement('span');
-                    viewCount.textContent = ` (${email.views} views)`;
+                    viewCount.textContent = ` (${email.value.open} views)`;
                     listItem.appendChild(link);
                     listItem.appendChild(viewCount);
                     emailList.appendChild(listItem);
