@@ -156,7 +156,7 @@
                     //newEmailLinkList.innerHTML = '';
                     const listItem = document.createElement('li');
                     const link = document.createElement('a');
-                    link.href = `/${links.key[1]}`;
+                    link.href = `/${links.key[1]}/open.jpg`;
                     link.textContent = links.value.email;
                     const viewCount = document.createElement('span');
                     viewCount.textContent = ` (${links.value.open} views)`;
@@ -174,7 +174,7 @@
                 emails.forEach(email => {
                     const listItem = document.createElement('li');
                     const link = document.createElement('a');
-                    link.href = `/${email.key[1]}`;
+                    link.href = `/${email.key[1]}/open.jpg`;
                     link.textContent = email.value.email;
                     const viewCount = document.createElement('span');
                     viewCount.textContent = ` (${email.value.open} views)`;

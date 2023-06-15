@@ -41,7 +41,7 @@ app.get('/list', async (req, res) => {
     res.send(list)
 })    
 
-app.get('/:email/open.png', async (req, res) => {
+app.get('/:email/open.jpg', async (req, res) => {
     //Track when an email is opened
     const email = req.params.email // Mail ID
     let st = await kv.get<Email>(["emails", email])
