@@ -146,7 +146,7 @@
             const emailName = document.getElementById('email-name').value;
             fetch('/create', {
                 method: 'POST',
-                body: JSON.stringify({ emailName }),
+                body: JSON.stringify({ email: emailName }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
