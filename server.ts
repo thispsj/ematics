@@ -1,6 +1,13 @@
 import express from 'https://esm.sh/express'
 import {v4 as uidgen} from 'https://esm.sh/uuid'
 
+import * as path from "https://deno.land/std@0.138.0/path/mod.ts";
+
+function getModuleDir(importMeta: ImportMeta): string {
+  return path.resolve(path.dirname(path.fromFileUrl(importMeta.url)));
+}
+
+const dir = getModuleDir(import.meta);
 const app = express()
 const port = 3000 || Deno.env.get('PORT')
 const kv = await Deno.openKv()
@@ -14,7 +21,7 @@ app.use(express.json())
 
 
 app.get('/', (req, res) => {
-    res.sendFile('/static/main.html')
+    res.sendFile(dir + '/static/main.html')
     }
 )
 
@@ -41,7 +48,7 @@ app.get('/:email/open.png', async (req, res) => {
     st.value.open += 1
     await kv.set(["emails", email], st.value)
     //Send 1x1 pixel image
-    res.sendFile('/static/emailtr.jpg')
+    res.sendFile(dir + '/static/emailtr.jpg')
 })
 
 app.listen(port, '0.0.0.0', () => {
