@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Email Tracker List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            color: #0078d7;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #0078d7;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 10px 20px;
+        }
+
+        button:hover {
+            background-color: #005a9e;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0078d7;
+            outline: none;
+        }
+
+        #new-email-form button[type="submit"] {
+            background-color: #0078d7;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 20px;
+        }
+
+        #new-email-form button[type="submit"]:hover {
+            background-color: #005a9e;
+        }
+
+        #new-email-links {
+            margin-top: 20px;
+        }
+
+        #new-email-link-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #new-email-link-list li {
+            margin: 10px 0;
+        }
+
+        #new-email-link-list a {
+            color: #0078d7;
+            text-decoration: none;
+        }
+
+        #new-email-link-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Email Tracker List</h1>
+    <ul id="email-list"></ul>
+
+    <button id="new-email-button">Create New Tracker</button>
+
+    <div id="new-email-form" style="display: none;">
+        <form>
+            <label for="email-name">Email Name:</label>
+            <input type="text" id="email-name" name="email-name">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="new-email-links" style="display: none;">
+        <p>Tracker Links:</p>
+        <ul id="new-email-link-list"></ul>
+    </div>
+
+    <script>
+        const emailList = document.getElementById('email-list');
+        const newEmailButton = document.getElementById('new-email-button');
+        const newEmailForm = document.getElementById('new-email-form');
+        const newEmailLinkList = document.getElementById('new-email-link-list');
+        const newEmailLinks = document.getElementById('new-email-links');
+
+        newEmailButton.addEventListener('click', () => {
+            newEmailForm.style.display = 'block';
+        });
+
+        newEmailForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const emailName = document.getElementById('email-name').value;
+            fetch('/create', {
+                method: 'POST',
+                body: JSON.stringify({ emailName }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(links => {
+                    newEmailLinkList.innerHTML = '';
+                    links.forEach(link => {
+                        const listItem = document.createElement('li');
+                        const linkElement = document.createElement('a');
+                        linkElement.href = link;
+                        linkElement.textContent = link;
+                        listItem.appendChild(linkElement);
+                        newEmailLinkList.appendChild(listItem);
+                    });
+                    newEmailLinks.style.display = 'block';
+                })
+                .catch(error => console.error(error));
+        });
+
+        fetch('/list')
+            .then(response => response.json())
+            .then(emails => {
+                emails.forEach(email => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = `/${email.name}`;
+                    link.textContent = email.name;
+                    const viewCount = document.createElement('span');
+                    viewCount.textContent = ` (${email.views} views)`;
+                    listItem.appendChild(link);
+                    listItem.appendChild(viewCount);
+                    emailList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+
+</html>
