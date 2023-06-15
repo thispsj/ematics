@@ -14,7 +14,7 @@ app.use(express.json())
 
 
 app.get('/', (req, res) => {
-    res.sendFile('./static/main.html')
+    res.sendFile('/static/main.html')
     }
 )
 
@@ -41,7 +41,7 @@ app.get('/:email/open.png', async (req, res) => {
     st.value.open += 1
     await kv.set(["emails", email], st.value)
     //Send 1x1 pixel image
-    res.sendFile('./static/emailtr.jpg')
+    res.sendFile('/static/emailtr.jpg')
 })
 
 app.listen(port, '0.0.0.0', () => {
