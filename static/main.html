@@ -186,11 +186,11 @@
                     const viewCount = document.createElement('span');
                     viewCount.textContent = ` (${email.value.open} views)`;
                     // Add a delete text which onclick calls a delete function.
-                    const deleteButton = document.createElement('span');
+                    const deleteButton = document.createElement('a');
                     deleteButton.textContent = 'Delete';
-                    deleteButton.style = 'text-decoration: underline;';
+                    deleteButton.style = 'text-decoration: none;';
                     deleteButton.id = email.key[1];
-                    deleteButton.onclick = 'deleteBtn (email.value.email))';
+                    deleteButton.href = 'javascript:deleteBtn (email.value.email))';
                     listItem.appendChild(link);
                     listItem.appendChild(viewCount);
                     listItem.appendChild(deleteButton);
