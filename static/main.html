@@ -124,7 +124,7 @@
             <button type="submit">Submit</button>
             <button id="close-form">Close</button>
         </form>
-        <span id="new-email-success" style="text-decoration: darkgreen;"><i>Created !</i></span>
+        <span id="new-email-success" style="text-decoration: darkgreen; display: none;"><i>Created !</i></span>
     </div>
 
     <div id="new-email-links" style="display: none;">
@@ -190,9 +190,9 @@
                     const deleteButton = document.createElement('span');
                     deleteButton.textContent = 'Delete';
                     deleteButton.addEventListener('click', () => {
-                        fetch('/delete', {
+                        fetch('/delete/'+email.value.email, {
                             method: 'DELETE',
-                            body: JSON.stringify({ email: email.value.email }),
+                            body: JSON.stringify({}),
                             headers: {
                                 'Content-Type': 'application/json'
                             }
@@ -206,6 +206,7 @@
                     });
                     listItem.appendChild(link);
                     listItem.appendChild(viewCount);
+                    listItem.appendChild(deleteButton);
                     emailList.appendChild(listItem);
                 });
             })
