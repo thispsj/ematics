@@ -189,8 +189,19 @@
                     const deleteButton = document.createElement('span');
                     deleteButton.textContent = 'Delete';
                     deleteButton.style = 'text-decoration: underline;';
-                    deleteButton.addEventListener('click', () => {
-                        fetch('/delete/'+email.value.email, {
+                    deleteButton.id = email.key[1];
+                    deleteButton.addEventListener('click', deleteBtn (email.value.email));
+                    listItem.appendChild(link);
+                    listItem.appendChild(viewCount);
+                    listItem.appendChild(deleteButton);
+                    emailList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error(error));
+        }
+        
+        function deleteBtn (email) {
+        fetch('/delete/'+email, {
                             method: 'DELETE',
                             body: '{}',
                             headers: {
@@ -202,15 +213,8 @@
                                 list();
                             })
                             .catch(error => console.error(error));
-                    });
-                    listItem.appendChild(link);
-                    listItem.appendChild(viewCount);
-                    listItem.appendChild(deleteButton);
-                    emailList.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error(error));
         }
+                    
         list();
     </script>
 </body>
