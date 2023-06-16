@@ -193,7 +193,7 @@
                     deleteButton.addEventListener('click', () => {
                         fetch('/delete/'+email.value.email, {
                             method: 'DELETE',
-                            body: JSON.stringify({}),
+                            body: '{}',
                             headers: {
                                 'Content-Type': 'application/json'
                             }
