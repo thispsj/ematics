@@ -160,7 +160,7 @@
                 }
             })
                 .then(response => response.json())
-                .then( () => {
+                .then( data => {
                     newEmailSuccess.style.display = 'block'
                     newEmailForm.style.display = 'none'
 
@@ -189,6 +189,7 @@
                     // Add a delete text which onclick calls a delete function.
                     const deleteButton = document.createElement('span');
                     deleteButton.textContent = 'Delete';
+                    deleteButton.style = 'text-decoration: underline;';
                     deleteButton.addEventListener('click', () => {
                         fetch('/delete/'+email.value.email, {
                             method: 'DELETE',
