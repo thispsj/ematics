@@ -163,14 +163,13 @@
                 .then( data => {
                     newEmailSuccess.style.display = 'block'
                     newEmailForm.style.display = 'none'
-
                 }
                 )
                 .catch(error => console.error(error));
         });
 
         function clearList () {
-            while (emailList.firstChild) {
+            while (emailList.firstChild!=undefined) {
                 emailList.removeChild(emailList.firstChild);
             }
         }
@@ -198,7 +197,6 @@
                                 'Content-Type': 'application/json'
                             }
                         })
-                            .then(response => response.json())
                             .then(data => {
                                 clearList();
                                 list();
