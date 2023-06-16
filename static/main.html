@@ -190,7 +190,7 @@
                     deleteButton.textContent = 'Delete';
                     deleteButton.style = 'text-decoration: underline;';
                     deleteButton.id = email.key[1];
-                    deleteButton.addEventListener('click', deleteBtn (email.value.email));
+                    deleteButton.onclick = 'deleteBtn (email.value.email))';
                     listItem.appendChild(link);
                     listItem.appendChild(viewCount);
                     listItem.appendChild(deleteButton);
