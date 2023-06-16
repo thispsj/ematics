@@ -122,8 +122,8 @@
             <label for="email-name">Email Name:</label>
             <input type="text" id="email-name" name="email-name">
             <button type="submit">Submit</button>
-            <button id="close-form">Close</button>
         </form>
+        <button id="close-form">Close</button>
         <span id="new-email-success" style="text-decoration: darkgreen; display: none;"><i>Created !</i></span>
     </div>
 
@@ -163,6 +163,8 @@
                 .then( data => {
                     newEmailSuccess.style.display = 'block'
                     newEmailForm.style.display = 'none'
+                    clearList()
+                    list()
                 }
                 )
                 .catch(error => console.error(error));
