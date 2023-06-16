@@ -25,6 +25,14 @@ app.get('/', (req, res) => {
     }
 )
 
+app.delete('/delete/:email', async (req, res) => {
+    //Delete an email
+    const email = req.params.email
+    const st = await kv.delete(["emails", email])
+    // Send empty response
+    res.send()
+})
+
 app.post('/create', async (req, res) => {
     //Create a new email
     const uuid = uidgen()

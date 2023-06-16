@@ -122,7 +122,9 @@
             <label for="email-name">Email Name:</label>
             <input type="text" id="email-name" name="email-name">
             <button type="submit">Submit</button>
+            <button id="close-form">Close</button>
         </form>
+        <span id="new-email-success" style="text-decoration: darkgreen;"><i>Created !</i></span>
     </div>
 
     <div id="new-email-links" style="display: none;">
@@ -136,6 +138,12 @@
         const newEmailForm = document.getElementById('new-email-form');
         const newEmailLinkList = document.getElementById('new-email-link-list');
         const newEmailLinks = document.getElementById('new-email-links');
+        const closeFormButton = document.getElementById('close-form');
+        const newEmailSuccess = document.getElementById('new-email-success');
+
+        closeFormButton.addEventListener('click', () => {
+            newEmailForm.style.display = 'none';
+        });
 
         newEmailButton.addEventListener('click', () => {
             newEmailForm.style.display = 'block';
@@ -152,22 +160,22 @@
                 }
             })
                 .then(response => response.json())
-                .then(links => {
-                    //newEmailLinkList.innerHTML = '';
-                    const listItem = document.createElement('li');
-                    const link = document.createElement('a');
-                    link.href = `/${links.key[1]}/open.jpg`;
-                    link.textContent = links.value.email;
-                    const viewCount = document.createElement('span');
-                    viewCount.textContent = ` (${links.value.open} views)`;
-                    listItem.appendChild(link);
-                    listItem.appendChild(viewCount);
-                    emailList.appendChild(listItem);
-                    //newEmailLinks.style.display = 'block';
-                })
+                .then( () => {
+                    newEmailSuccess.style.display = 'block'
+                    newEmailForm.style.display = 'none'
+
+                }
+                )
                 .catch(error => console.error(error));
         });
 
+        function clearList () {
+            while (emailList.firstChild) {
+                emailList.removeChild(emailList.firstChild);
+            }
+        }
+
+        function list () {
         fetch('/list')
             .then(response => response.json())
             .then(emails => {
@@ -178,12 +186,32 @@
                     link.textContent = email.value.email;
                     const viewCount = document.createElement('span');
                     viewCount.textContent = ` (${email.value.open} views)`;
+                    // Add a delete text which onclick calls a delete function.
+                    const deleteButton = document.createElement('span');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', () => {
+                        fetch('/delete', {
+                            method: 'DELETE',
+                            body: JSON.stringify({ email: email.value.email }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(() => {
+                                clearList();
+                                list();
+                            })
+                            .catch(error => console.error(error));
+                    });
                     listItem.appendChild(link);
                     listItem.appendChild(viewCount);
                     emailList.appendChild(listItem);
                 });
             })
             .catch(error => console.error(error));
+        }
+        list();
     </script>
 </body>
 
